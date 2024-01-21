@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperature Converter</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .content {
+            max-width: 700px;
+            margin: auto;
+            border: 1px solid red;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: flex-start;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: aqua;
+        }
+
+        input {
+            margin: 20px;
+            font-size: 20px;
+        }
+
+        
+        .visiblearea h2{
+            word-wrap: break-word;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Code goes here
+
+function TemperatureConverter() {
+        const [CelsiusValue, CelsiusValueUpdate] = React.useState();
+        const [FahrenheitValue, FahrenheitValueUpdate] = React.useState();
+
+        function readInput(event) {
+            if (event.target.name == "cel") {
+                CelsiusValueUpdate(event.target.value);
+                FahrenheitValueUpdate(parseFloat(((9/5) * Number(event.target.value)) + 32).toFixed(2));
+            }else{
+                CelsiusValueUpdate(parseFloat((5/9)*(event.target.value-32)).toFixed(2));
+                FahrenheitValueUpdate(event.target.value);
+            }
+        }
+
+        return (
+            <>
+                <h1>Temperature Converter</h1>
+                <div className="content">
+                    <div className="inputsection">
+                        <input name="cel" type="number" onChange={readInput} value={CelsiusValue} placeholder="Enter Celsius" />
+                        <br />
+                        <input name="firn" type="number" onChange={readInput} value={FahrenheitValue} placeholder="Enter Fahrenheit" />
+                    </div>
+                    <div class="visiblearea">
+                        <h2>Temperature in Celsius: {CelsiusValue}</h2>
+                        <h2>Temperature in Fahrenheit: {FahrenheitValue}</h2>
+
+                    </div>
+                </div>
+            </>
+        );
+    }
+
+
+    // main app
+    function App() {
+        return (
+            <>
+                <TemperatureConverter />
+            </>
+        );
+    }
+
+
+
+    // rendering Element
+    const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+    rootElement.render(<App />);
+  </script>
+</html>
